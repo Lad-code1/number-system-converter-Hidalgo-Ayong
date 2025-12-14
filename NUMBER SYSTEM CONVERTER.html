@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Number System Converter</title>
+<link rel="stylesheet" href="jerald.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Number System Converter</h2>
+     <!-- this is where the user enter a number -->
+    <input type="text" id="number" placeholder="Enter a number">
+
+    <!-- the number you are converting from -->
+    <select id="fromBase">
+        <option value="2">Binary</option>
+        <option value="8">Octal</option>
+        <option value="10" selected>Decimal</option>
+        <option value="16">Hexadecimal</option>
+    </select>
+
+    <!-- the base you want to convert to -->
+    <select id="toBase">
+        <option value="2">Binary</option>
+        <option value="8">Octal</option>
+        <option value="10">Decimal</option>
+        <option value="16">Hexadecimal</option>
+    </select>
+
+    <!-- the button that triggers the conversion -->
+    <button onclick="convertNumber()">Convert</button>
+
+    <!-- to display the result -->
+    <p id="result"></p>
+</div>
+
+<script>
+/*
+In this code function checks if the entered number is valid for the selected base
+*/
+function isValid(num, base) {
+    // binary only 0 and 1 are allowed
+    if (base === 2) return /^[01]+$/.test(num);
+    // octal digits 0-7 are allowed
+    if (base === 8) return /^[0-7]+$/.test(num);
+    // decimal digits 0-9 are allowed
+    if (base === 10) return /^[0-9]+$/.test(num);
+    // hexadecimal digits 0-9 and letters A-F are allowed
+    if (base === 16) return /^[0-9a-fA-F]+$/.test(num);
+}
+
+function convertNumber() {
+    // get input value
+    let num = document.getElementById("number").value.trim();
+
+    // to get selected bases
+    let fromBase = parseInt(document.getElementById("fromBase").value);
+    let toBase = parseInt(document.getElementById("toBase").value);
+
+    // to check if input is empty
+    if (num === "") {
+        document.getElementById("result").innerText = "Please enter a number";
+        return; 
+    }
+
+    // to check if input is valid for the selected base
+    if (!isValid(num, fromBase)) {
+        document.getElementById("result").innerText = "Invalid input for selected base";
+        return;
+    }
+
+    // convert input to decimal number
+    let decimal = parseInt(num, fromBase);
+
+    // convert decimal number to the target base
+    let result = decimal.toString(toBase).toUpperCase(); 
+
+    // display the result
+    document.getElementById("result").innerText = "Result: " + result;
+}
+</script>
+
+</body>
+</html>
